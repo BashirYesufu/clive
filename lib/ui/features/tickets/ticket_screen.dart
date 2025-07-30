@@ -9,6 +9,7 @@ import 'package:clive/util/ui_util/color_manager.dart';
 import 'package:clive/util/ui_util/ui_actions.dart';
 import 'package:flutter/material.dart';
 import '../../sheets/tickets_sheets.dart';
+import '../../widgets/app_switch.dart';
 
 class TicketScreen extends StatefulWidget {
   const TicketScreen({super.key});
@@ -30,8 +31,35 @@ class _TicketScreenState extends State<TicketScreen> with TicketDelegate{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('List of Tickets', style: AppTextStyles.black(weight: FontWeight.w700, size: 28),),
-            Text('Select the tickets you wish to pay for',  style: AppTextStyles.grey(),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('List of Tickets', style: AppTextStyles.black(weight: FontWeight.w700, size: 28),),
+                    Text('Select the tickets you wish to pay for',  style: AppTextStyles.grey(),),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('Offline Mode', style: AppTextStyles.grey(),),
+                    FutureBuilder(
+                        future: DataPersistor.isOffline(),
+                        builder: (context, snapshot) {
+                          return AppSwitch(
+                            isOn: snapshot.data ?? false,
+                            onToggle: (value){
+                              DataPersistor.toggleOfflineMode(value);
+                            },
+                          );
+                        }
+                    ),
+                  ],
+                ),
+              ],
+            ),
             SizedBox(height: 20),
             InkWell(
               child: AppPickerField(

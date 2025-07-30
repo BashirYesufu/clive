@@ -96,4 +96,15 @@ class DataPersistor {
     List<Ticket> jsonData = List<Ticket>.from(jsonDecode(cache).map((json)=> Ticket.fromJson(json)));
     return jsonData;
   }
+
+  static Future<bool> isOffline() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final value = prefs.getBool(DataPersistorKeys.keyOffline);
+    return value ?? false;
+  }
+
+  static void toggleOfflineMode(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(DataPersistorKeys.keyOffline, value);
+  }
 }

@@ -25,6 +25,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.backGround,
+      
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

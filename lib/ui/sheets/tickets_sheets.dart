@@ -1,4 +1,5 @@
 import 'package:clive/ui/widgets/app_button.dart';
+import 'package:clive/util/persistor/data_persistor.dart';
 import 'package:clive/util/route/app_router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,12 @@ class _TicketListSheetState extends State<TicketListSheet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Tickets', style: AppTextStyles.black( size: 16, weight: FontWeight.w600),),
+          FutureBuilder(
+            future: DataPersistor.isOffline(),
+            builder: (context, snapshot) {
+              return snapshot.data == true ? Text('Offline Mode: showing cached tickets.', style: AppTextStyles.black()) : SizedBox();
+            }
+          ),
           Expanded(
             child: StreamBuilder<List<Ticket>>(
               stream: _ticketBloc.ticketResponse,
