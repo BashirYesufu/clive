@@ -98,6 +98,10 @@ class _WishListWidgetState extends State<WishListWidget> {
                                DataPersistor.addPurchasedTicket(ticket);
                              });
                            });
+                         } else {
+                           print('Ticket: ${ticket.artist}');
+                           print('Amount: ${ticket.ticketPrice}');
+                           print('Ticket: ${ticket.purchasedAt}');
                          }
                         },
                         child: Container(
@@ -107,7 +111,7 @@ class _WishListWidgetState extends State<WishListWidget> {
                               color: ColorManager.backGround,
                               borderRadius: BorderRadius.circular(8)
                             ),
-                            child: Center(child: Text(ticket.purchased == true ? 'View Receipt' : 'Purchase Ticket'))),),
+                            child: Center(child: Text(ticket.purchased == true ? 'Print Receipt' : 'Purchase Ticket'))),),
                     ],
                   )
                 ],

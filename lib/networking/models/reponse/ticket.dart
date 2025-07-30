@@ -8,6 +8,7 @@ class Ticket {
   String? ticketRef;
   num? quantityAvailable;
   bool? purchased;
+  DateTime? purchasedAt;
 
   Ticket({
     this.artist,
@@ -19,6 +20,7 @@ class Ticket {
     this.ticketRef,
     this.quantityAvailable,
     this.purchased,
+    this.purchasedAt,
   });
 
   @override
@@ -40,6 +42,7 @@ class Ticket {
     ticketRef: json["ticket_ref"],
     quantityAvailable: json["quantity_available"],
     purchased: json["purchased"],
+    purchasedAt: json["purchased_at"] == null ? null : DateTime.parse(json["purchased_at"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -52,5 +55,6 @@ class Ticket {
     "ticket_ref": ticketRef,
     "quantity_available": quantityAvailable,
     "purchased": purchased,
+    "purchased_at": purchasedAt,
   };
 }

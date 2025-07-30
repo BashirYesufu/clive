@@ -81,6 +81,7 @@ class DataPersistor {
 
     Set<Ticket> listSet = currentList.toSet();
     data.purchased = true;
+    data.purchasedAt = DateTime.now();
     listSet.add(data);
 
     _savePurchasedTickets(listSet.toList());
