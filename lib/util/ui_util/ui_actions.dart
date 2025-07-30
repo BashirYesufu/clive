@@ -97,6 +97,11 @@ class UIActions {
             Flexible(
               child: AppButton(
                 title: secButtonTitle ?? 'Cancel',
+                textColor: ColorManager.green,
+                decoration: BoxDecoration(
+                  border: Border.all(color: ColorManager.green),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 onTap: () {
                   AppRouter.goBack(context);
                 },

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import '../../util/ui_util/color_manager.dart';
 
 class AppButton extends StatelessWidget {
-  const AppButton({this.onTap, required this.title, super.key});
+  const AppButton({this.onTap, required this.title, this.decoration, this.textColor, super.key});
   final Function()? onTap;
   final String title;
+  final Decoration? decoration;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +16,11 @@ class AppButton extends StatelessWidget {
       child: Container(
         height: 48,
         width: double.infinity,
-        decoration: BoxDecoration(
+        decoration: decoration ?? BoxDecoration(
           color: ColorManager.green,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Center(child: Text(title, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),)),
+        child: Center(child: Text(title, style: TextStyle(color:textColor ?? Colors.white, fontWeight: FontWeight.w700),)),
       ),
     );
   }

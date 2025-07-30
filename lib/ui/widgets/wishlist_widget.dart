@@ -1,5 +1,7 @@
+import 'package:clive/util/persistor/data_persistor.dart';
 import 'package:clive/util/ui_util/color_manager.dart';
 import 'package:clive/util/ui_util/image_manager.dart';
+import 'package:clive/util/ui_util/ui_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -20,9 +22,10 @@ class _WishListWidgetState extends State<WishListWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 40.0),
-      height: 140,
+      height: 165,
       decoration: BoxDecoration(
-        border: Border.all(
+          color: ColorManager.border.withValues(alpha: 0.1),
+          border: Border.all(
           color: ColorManager.border,
         ),
         borderRadius: BorderRadius.circular(12)
@@ -33,7 +36,7 @@ class _WishListWidgetState extends State<WishListWidget> {
             borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
             child: Container(
               width: 4,
-              height: 140,
+              height: 165,
               color: Colors.black, margin: EdgeInsets.only(right: 4),
             ),
           ),
@@ -86,11 +89,25 @@ class _WishListWidgetState extends State<WishListWidget> {
                           ),)
                         ],
                       ),
-                      ticket.purchased == true ? SizedBox() : InkWell(
+                      InkWell(
                         onTap: (){
-                          //TODO: Simulate purchase or hit from api
+                         if(ticket.purchased == false){
+                           UIActions.showPriSecPopup(context, message: 'Are you sure you want to purchase tickets', onTap: (){
+                             setState(() {
+                               DataPersistor.removeFromWishlist(ticket);
+                               DataPersistor.addPurchasedTicket(ticket);
+                             });
+                           });
+                         }
                         },
-                        child: Text('Purchase Ticket'),),
+                        child: Container(
+                          height: 48,
+                            width: 140,
+                            decoration: BoxDecoration(
+                              color: ColorManager.backGround,
+                              borderRadius: BorderRadius.circular(8)
+                            ),
+                            child: Center(child: Text(ticket.purchased == true ? 'View Receipt' : 'Purchase Ticket'))),),
                     ],
                   )
                 ],

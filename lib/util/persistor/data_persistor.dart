@@ -33,6 +33,7 @@ class DataPersistor {
     Set<Ticket> wishlistSet = currentWishlist.toSet();
 
     for (Ticket ticket in data) {
+      ticket.purchased = false;
       //Add the ticket to the set. If it's already there, the set won't add it again.
       wishlistSet.add(ticket);
     }
@@ -66,13 +67,23 @@ class DataPersistor {
     return jsonData;
   }
 
-  static void savePurchasedTickets(List<Ticket> data) async {
+  static void _savePurchasedTickets(List<Ticket> data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if(data.isEmpty){
       return;
     }
     final dataJson = jsonEncode(data);
     prefs.setString(DataPersistorKeys.keyPurchasedTickets, dataJson);
+  }
+
+  static void addPurchasedTicket(Ticket data) async {
+    List<Ticket> currentList = await getPurchasedTickets();
+
+    Set<Ticket> listSet = currentList.toSet();
+    data.purchased = true;
+    listSet.add(data);
+
+    _savePurchasedTickets(listSet.toList());
   }
 
   static Future<List<Ticket>> getPurchasedTickets() async {

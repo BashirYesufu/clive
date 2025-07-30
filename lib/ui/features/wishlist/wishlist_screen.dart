@@ -72,16 +72,25 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   SizedBox(height: 20),
                   Expanded(
                     child: FutureBuilder(
-                        future: DataPersistor.getWishlist(),
+                        future: getTickets(),
                         builder: (context, snapshot) {
-                          print(snapshot.data);
                           if(snapshot.data?.isEmpty == false) {
                             return ListView.builder(
                               padding: EdgeInsets.symmetric(horizontal: 12),
                               itemCount: snapshot.data?.length,
                                 itemBuilder: (context, index) {
                               Ticket ticket = snapshot.data![index];
-                              return WishListWidget(ticket: ticket);
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  WishListWidget(ticket: ticket),
+                                  (index < snapshot.data!.length - 1 == true)
+                                      ? ticket.purchased == true && snapshot.data![index+1].purchased == false ? Padding(
+                                    padding: const EdgeInsets.only(bottom: 12.0),
+                                    child: Text('Upcoming Events', style: AppTextStyles.orange(size: 18, weight: FontWeight.w600),),
+                                  ) : SizedBox() : SizedBox()
+                                ],
+                              );
                             });
                           } else {
                             return Center(
@@ -99,4 +108,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
       ),
     );
   }
+
+  Future<List<Ticket>> getTickets() async {
+     var purchasedList = await DataPersistor.getPurchasedTickets();
+     print('purchasedList');
+     print(purchasedList);
+     var wishList = await DataPersistor.getWishlist();
+     print('wishList');
+     print(wishList);
+
+     return purchasedList + wishList;
+  }
+
 }
