@@ -1,10 +1,10 @@
+import 'package:clive/ui/widgets/app_button.dart';
 import 'package:clive/util/route/app_router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../bloc/repository/ticket_bloc.dart';
 import '../../networking/models/reponse/ticket.dart';
 import '../../util/ui_util/app_text_styles.dart';
-import '../../util/ui_util/color_manager.dart';
 import '../../util/ui_util/ui_actions.dart';
 import '../widgets/ticket_widget.dart';
 
@@ -76,20 +76,12 @@ class _TicketListSheetState extends State<TicketListSheet> {
             ),
           ),
           selectedTickets.isNotEmpty ? SafeArea(
-            child: InkWell(
+            child: AppButton(
               onTap: (){
                 AppRouter.goBack(context);
                 widget.delegate.proceedWithTickets(selectedTickets);
               },
-              child: Container(
-                height: 48,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: ColorManager.green,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(child: Text('Select Tickets', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),)),
-              ),
+              title: 'Select Tickets',
             ),
           ) : SizedBox()
 

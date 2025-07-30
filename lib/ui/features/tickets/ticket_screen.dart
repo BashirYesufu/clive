@@ -1,10 +1,12 @@
 import 'package:clive/networking/models/reponse/ticket.dart';
+import 'package:clive/ui/widgets/app_button.dart';
 import 'package:clive/ui/widgets/app_input_field.dart';
 import 'package:clive/ui/widgets/app_picker_field.dart';
 import 'package:clive/ui/widgets/ticket_widget.dart';
 import 'package:clive/util/persistor/data_persistor.dart';
 import 'package:clive/util/ui_util/app_text_styles.dart';
 import 'package:clive/util/ui_util/color_manager.dart';
+import 'package:clive/util/ui_util/ui_actions.dart';
 import 'package:flutter/material.dart';
 import '../../sheets/tickets_sheets.dart';
 
@@ -16,7 +18,7 @@ class TicketScreen extends StatefulWidget {
 }
 
 class _TicketScreenState extends State<TicketScreen> with TicketDelegate{
-  final TextEditingController _locationTC = TextEditingController();
+  String? _location;
   List<Ticket> selectedTickets = [];
 
   @override
@@ -34,13 +36,14 @@ class _TicketScreenState extends State<TicketScreen> with TicketDelegate{
             InkWell(
               child: AppPickerField(
                 title: 'Location',
-                controller: _locationTC,
+                hintText: 'Select location',
+                onChanged: (dynamic text)=> _location = text,
                 suffixIcon: Icon(Icons.keyboard_arrow_down),
-                items: ['Lagos', 'Abuja', 'Ibadan', 'Enugu'],
+                items: ['Lagos', 'Abuja', 'Ibadan', 'Enugu', 'Port Harcourt', 'Kano'],
               ),
             ),
             InkWell(
-              onTap: ()=> TicketListSheet.launch(context, location: _locationTC.text, delegate: this),
+              onTap: ()=> TicketListSheet.launch(context, location: _location, delegate: this),
               child: AppInputField(
                 title: 'Tickets',
                 hintText: 'Select item',
@@ -56,17 +59,11 @@ class _TicketScreenState extends State<TicketScreen> with TicketDelegate{
                 ),
               ),
             ),
-            selectedTickets.isNotEmpty ? InkWell(
-              onTap: ()=> DataPersistor.saveWishList(selectedTickets),
-              child: Container(
-                height: 48,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: ColorManager.green,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(child: Text('Add to Wishlist ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),)),
-              ),
+            selectedTickets.isNotEmpty ? AppButton(
+              onTap: ()=> DataPersistor.addToWishlist(selectedTickets).then((_){
+                  UIActions.showSuccessPopup(context, message: 'Tickets added to wishlist successfully');
+                }),
+              title: 'Add to Wishlist ',
             ) : SizedBox()
           ],
         ),

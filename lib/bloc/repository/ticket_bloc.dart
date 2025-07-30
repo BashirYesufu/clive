@@ -11,6 +11,7 @@ class TicketBloc {
   final _ticketSubject = BehaviorSubject<List<Ticket>>();
   Stream<List<Ticket>> get ticketResponse => _ticketSubject.stream;
   void getTickets({String? location}) async {
+    print(location);
     final bool isConnected = await InternetConnectionChecker.instance.hasConnection;
     if (isConnected) {
       // DataPersistor.getTickets().then((savedTickets){

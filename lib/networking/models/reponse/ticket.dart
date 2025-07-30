@@ -21,6 +21,15 @@ class Ticket {
     this.purchased,
   });
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Ticket && runtimeType == other.runtimeType && ticketRef == other.ticketRef;
+  }
+
+  @override
+  int get hashCode => ticketRef.hashCode;
+
   factory Ticket.fromJson(Map<String, dynamic> json) => Ticket(
     artist: json["artist"],
     ticketPrice: json["ticket_price"],

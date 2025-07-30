@@ -34,7 +34,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Ticket', style: AppTextStyles.black(weight: FontWeight.w700, size: 28),),
-                Text('See all  tickets', style: AppTextStyles.grey(),),
+                Text('See all tickets', style: AppTextStyles.grey(),),
                 AppInputField(
                   rounded: true,
                   prefixIcon: SvgPicture.asset(ImageManager.search, fit: BoxFit.scaleDown,),
