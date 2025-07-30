@@ -5,22 +5,6 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(DioRequestInspectorMain(
     inspector: App.inspector,
-    child: MyApp(),
+    child: App.sharedInstance,
   ));
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Clive',
-      home: App.sharedInstance,
-      navigatorObservers: [
-        DioRequestInspector.navigatorObserver,
-      ],
-    );
-  }
 }

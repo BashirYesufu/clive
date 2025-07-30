@@ -10,16 +10,16 @@ class TicketApiService {
 
   Future<List<Ticket>> getTickets() async {
     var completer = Completer<List<Ticket>>();
-    await _networkManager.makeRequest(requestType: RequestType.get, url: ApiUrls.tickets, useNestedParam: false).then((response){
-      List<Ticket> result = List<Ticket>.from(response?.data.map((x)=> Ticket.fromJson(x)));
-      print(result);
-      completer.complete(result);
-    }, onError: (error){
-      completer.completeError(error);
-    });
-
+    try {
+      final response = await _networkManager.makeRequest(requestType: RequestType.get, url: ApiUrls.tickets, useNestedParam: false);
+      if (response?.data != null) {
+        List<Ticket> result = List<Ticket>.from(response?.data.map((x)=> Ticket.fromJson(x)));
+        completer.complete(result);
+      }
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
     return completer.future;
-
   }
 
 }

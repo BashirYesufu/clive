@@ -26,6 +26,7 @@ class DataPersistor {
   }
 
   static void addToWishlist(Ticket data) async {
+    print(data);
     List<Ticket> currentList = await getWishlist();
     currentList.add(data);
     saveWishList(currentList);

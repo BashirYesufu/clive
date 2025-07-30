@@ -21,6 +21,9 @@ class _AppState extends State<App> {
       routes: RouteHandler.routes,
       initialRoute: RouteHandler.initialRoute,
       onGenerateRoute: RouteHandler.onGenerateRoute,
+      navigatorObservers: [
+        DioRequestInspector.navigatorObserver,
+      ],
     );
   }
 }
